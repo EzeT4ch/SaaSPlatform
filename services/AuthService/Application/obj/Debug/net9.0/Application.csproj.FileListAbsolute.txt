@@ -1,0 +1,15 @@
+C:\Workspace\TemplateArchitecture\Application\bin\Debug\net9.0\Application.deps.json
+C:\Workspace\TemplateArchitecture\Application\bin\Debug\net9.0\Application.dll
+C:\Workspace\TemplateArchitecture\Application\bin\Debug\net9.0\Application.pdb
+C:\Workspace\TemplateArchitecture\Application\bin\Debug\net9.0\Shared.dll
+C:\Workspace\TemplateArchitecture\Application\bin\Debug\net9.0\Shared.pdb
+C:\Workspace\TemplateArchitecture\Application\obj\Debug\net9.0\Application.csproj.AssemblyReference.cache
+C:\Workspace\TemplateArchitecture\Application\obj\Debug\net9.0\Application.GeneratedMSBuildEditorConfig.editorconfig
+C:\Workspace\TemplateArchitecture\Application\obj\Debug\net9.0\Application.AssemblyInfoInputs.cache
+C:\Workspace\TemplateArchitecture\Application\obj\Debug\net9.0\Application.AssemblyInfo.cs
+C:\Workspace\TemplateArchitecture\Application\obj\Debug\net9.0\Application.csproj.CoreCompileInputs.cache
+C:\Workspace\TemplateArchitecture\Application\obj\Debug\net9.0\Applicat.44B5EDA2.Up2Date
+C:\Workspace\TemplateArchitecture\Application\obj\Debug\net9.0\Application.dll
+C:\Workspace\TemplateArchitecture\Application\obj\Debug\net9.0\refint\Application.dll
+C:\Workspace\TemplateArchitecture\Application\obj\Debug\net9.0\Application.pdb
+C:\Workspace\TemplateArchitecture\Application\obj\Debug\net9.0\ref\Application.dll

@@ -1,0 +1,17 @@
+C:\Users\brian\Obsidian\Azure Developer\saa-platform\services\TemplateArchitecture\Infrastructure\bin\Debug\net9.0\AuthService.Infrastructure.deps.json
+C:\Users\brian\Obsidian\Azure Developer\saa-platform\services\TemplateArchitecture\Infrastructure\bin\Debug\net9.0\AuthService.Infrastructure.dll
+C:\Users\brian\Obsidian\Azure Developer\saa-platform\services\TemplateArchitecture\Infrastructure\bin\Debug\net9.0\AuthService.Infrastructure.pdb
+C:\Users\brian\Obsidian\Azure Developer\saa-platform\services\TemplateArchitecture\Infrastructure\bin\Debug\net9.0\AuthService.Application.dll
+C:\Users\brian\Obsidian\Azure Developer\saa-platform\services\TemplateArchitecture\Infrastructure\bin\Debug\net9.0\Shared.dll
+C:\Users\brian\Obsidian\Azure Developer\saa-platform\services\TemplateArchitecture\Infrastructure\bin\Debug\net9.0\AuthService.Application.pdb
+C:\Users\brian\Obsidian\Azure Developer\saa-platform\services\TemplateArchitecture\Infrastructure\bin\Debug\net9.0\Shared.pdb
+C:\Users\brian\Obsidian\Azure Developer\saa-platform\services\TemplateArchitecture\Infrastructure\obj\Debug\net9.0\AuthService.Infrastructure.csproj.AssemblyReference.cache
+C:\Users\brian\Obsidian\Azure Developer\saa-platform\services\TemplateArchitecture\Infrastructure\obj\Debug\net9.0\AuthService.Infrastructure.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\brian\Obsidian\Azure Developer\saa-platform\services\TemplateArchitecture\Infrastructure\obj\Debug\net9.0\AuthService.Infrastructure.AssemblyInfoInputs.cache
+C:\Users\brian\Obsidian\Azure Developer\saa-platform\services\TemplateArchitecture\Infrastructure\obj\Debug\net9.0\AuthService.Infrastructure.AssemblyInfo.cs
+C:\Users\brian\Obsidian\Azure Developer\saa-platform\services\TemplateArchitecture\Infrastructure\obj\Debug\net9.0\AuthService.Infrastructure.csproj.CoreCompileInputs.cache
+C:\Users\brian\Obsidian\Azure Developer\saa-platform\services\TemplateArchitecture\Infrastructure\obj\Debug\net9.0\AuthServ.03063B79.Up2Date
+C:\Users\brian\Obsidian\Azure Developer\saa-platform\services\TemplateArchitecture\Infrastructure\obj\Debug\net9.0\AuthService.Infrastructure.dll
+C:\Users\brian\Obsidian\Azure Developer\saa-platform\services\TemplateArchitecture\Infrastructure\obj\Debug\net9.0\refint\AuthService.Infrastructure.dll
+C:\Users\brian\Obsidian\Azure Developer\saa-platform\services\TemplateArchitecture\Infrastructure\obj\Debug\net9.0\AuthService.Infrastructure.pdb
+C:\Users\brian\Obsidian\Azure Developer\saa-platform\services\TemplateArchitecture\Infrastructure\obj\Debug\net9.0\ref\AuthService.Infrastructure.dll

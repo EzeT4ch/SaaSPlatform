@@ -1,0 +1,11 @@
+C:\Workspace\TemplateArchitecture\Domain\bin\Debug\net9.0\Domain.deps.json
+C:\Workspace\TemplateArchitecture\Domain\bin\Debug\net9.0\Domain.dll
+C:\Workspace\TemplateArchitecture\Domain\bin\Debug\net9.0\Domain.pdb
+C:\Workspace\TemplateArchitecture\Domain\obj\Debug\net9.0\Domain.GeneratedMSBuildEditorConfig.editorconfig
+C:\Workspace\TemplateArchitecture\Domain\obj\Debug\net9.0\Domain.AssemblyInfoInputs.cache
+C:\Workspace\TemplateArchitecture\Domain\obj\Debug\net9.0\Domain.AssemblyInfo.cs
+C:\Workspace\TemplateArchitecture\Domain\obj\Debug\net9.0\Domain.csproj.CoreCompileInputs.cache
+C:\Workspace\TemplateArchitecture\Domain\obj\Debug\net9.0\Domain.dll
+C:\Workspace\TemplateArchitecture\Domain\obj\Debug\net9.0\refint\Domain.dll
+C:\Workspace\TemplateArchitecture\Domain\obj\Debug\net9.0\Domain.pdb
+C:\Workspace\TemplateArchitecture\Domain\obj\Debug\net9.0\ref\Domain.dll
