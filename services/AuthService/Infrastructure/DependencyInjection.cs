@@ -1,8 +1,12 @@
 ﻿using AuthService.Application.Abstractions.Data;
 using AuthService.Infrastructure;
 using AuthService.Infrastructure.Database;
+using AuthService.Infrastructure.Database.Entities;
+using AuthService.Infrastructure.Database.Identity;
 using AuthService.Infrastructure.DomainEvents;
 using AuthService.Infrastructure.Time;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.Extensions.Configuration;
@@ -41,16 +45,36 @@ public static class DependencyInjection
 
         services.AddScoped<IApplicationDbContext>(sp => sp.GetRequiredService<DbContainer>());
 
+        services.AddIdentity();
+        
         return services;
     }
 
     private static IServiceCollection AddHealthChecks(this IServiceCollection services, IConfiguration configuration)
     {
+        string? connectionString = configuration.GetConnectionString("Database");
+        
+        if(string.IsNullOrEmpty(connectionString))
+            return services;
+        
         services
-            .AddHealthChecks();
+            .AddHealthChecks()
+            .AddSqlServer(connectionString);
 
         return services;
     }
 
-   
+   private static IServiceCollection AddIdentity(this IServiceCollection services)
+    {
+        services.AddIdentity<User, Role>(options =>
+            {
+                options.Password.RequireDigit = true;
+                options.Password.RequiredLength = 8;
+                options.User.RequireUniqueEmail = true;
+            })
+            .AddUserStore<ApplicationUserStore>()
+            .AddRoleStore<RoleStore<Role, DbContainer, Guid>>()
+            .AddDefaultTokenProviders();
+        return services;
+    }
 }

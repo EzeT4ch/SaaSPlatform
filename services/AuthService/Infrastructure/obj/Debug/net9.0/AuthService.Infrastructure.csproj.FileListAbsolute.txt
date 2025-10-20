@@ -15,3 +15,21 @@ C:\Users\brian\Obsidian\Azure Developer\saa-platform\services\TemplateArchitectu
 C:\Users\brian\Obsidian\Azure Developer\saa-platform\services\TemplateArchitecture\Infrastructure\obj\Debug\net9.0\refint\AuthService.Infrastructure.dll
 C:\Users\brian\Obsidian\Azure Developer\saa-platform\services\TemplateArchitecture\Infrastructure\obj\Debug\net9.0\AuthService.Infrastructure.pdb
 C:\Users\brian\Obsidian\Azure Developer\saa-platform\services\TemplateArchitecture\Infrastructure\obj\Debug\net9.0\ref\AuthService.Infrastructure.dll
+C:\Workspace\SaaSPlatform\services\AuthService\Infrastructure\obj\Debug\net9.0\AuthService.Infrastructure.csproj.AssemblyReference.cache
+C:\Workspace\SaaSPlatform\services\AuthService\Infrastructure\obj\Debug\net9.0\AuthService.Infrastructure.GeneratedMSBuildEditorConfig.editorconfig
+C:\Workspace\SaaSPlatform\services\AuthService\Infrastructure\obj\Debug\net9.0\AuthService.Infrastructure.AssemblyInfoInputs.cache
+C:\Workspace\SaaSPlatform\services\AuthService\Infrastructure\obj\Debug\net9.0\AuthService.Infrastructure.AssemblyInfo.cs
+C:\Workspace\SaaSPlatform\services\AuthService\Infrastructure\obj\Debug\net9.0\AuthService.Infrastructure.csproj.CoreCompileInputs.cache
+C:\Workspace\SaaSPlatform\services\AuthService\Infrastructure\obj\Debug\net9.0\AuthService.Infrastructure.sourcelink.json
+C:\Workspace\SaaSPlatform\services\AuthService\Infrastructure\obj\Debug\net9.0\AuthService.Infrastructure.dll
+C:\Workspace\SaaSPlatform\services\AuthService\Infrastructure\obj\Debug\net9.0\refint\AuthService.Infrastructure.dll
+C:\Workspace\SaaSPlatform\services\AuthService\Infrastructure\obj\Debug\net9.0\AuthService.Infrastructure.pdb
+C:\Workspace\SaaSPlatform\services\AuthService\Infrastructure\bin\Debug\net9.0\AuthService.Infrastructure.deps.json
+C:\Workspace\SaaSPlatform\services\AuthService\Infrastructure\bin\Debug\net9.0\AuthService.Infrastructure.dll
+C:\Workspace\SaaSPlatform\services\AuthService\Infrastructure\bin\Debug\net9.0\AuthService.Infrastructure.pdb
+C:\Workspace\SaaSPlatform\services\AuthService\Infrastructure\bin\Debug\net9.0\AuthService.Application.dll
+C:\Workspace\SaaSPlatform\services\AuthService\Infrastructure\bin\Debug\net9.0\Shared.dll
+C:\Workspace\SaaSPlatform\services\AuthService\Infrastructure\bin\Debug\net9.0\AuthService.Application.pdb
+C:\Workspace\SaaSPlatform\services\AuthService\Infrastructure\bin\Debug\net9.0\Shared.pdb
+C:\Workspace\SaaSPlatform\services\AuthService\Infrastructure\obj\Debug\net9.0\AuthServ.03063B79.Up2Date
+C:\Workspace\SaaSPlatform\services\AuthService\Infrastructure\obj\Debug\net9.0\ref\AuthService.Infrastructure.dll

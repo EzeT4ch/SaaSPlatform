@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "fsNr6RFste0=",
+  "dgSpecHash": "HU7HGbHxXdg=",
   "success": true,
-  "projectFilePath": "C:\\Users\\brian\\Obsidian\\Azure Developer\\saa-platform\\services\\TemplateArchitecture\\Domain\\AuthService.Domain.csproj",
+  "projectFilePath": "C:\\Workspace\\SaaSPlatform\\services\\AuthService\\Domain\\AuthService.Domain.csproj",
   "expectedPackageFiles": [],
   "logs": []
 }

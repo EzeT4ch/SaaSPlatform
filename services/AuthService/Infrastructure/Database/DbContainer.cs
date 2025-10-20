@@ -1,5 +1,8 @@
 ﻿using AuthService.Application.Abstractions.Data;
+using AuthService.Infrastructure.Database.Entities;
 using AuthService.Infrastructure.DomainEvents;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Shared;
 
@@ -8,8 +11,13 @@ namespace AuthService.Infrastructure.Database;
 public sealed class DbContainer (
     DbContextOptions<DbContainer> options,
     IDomainEventsDispatcher domainEventsDispatcher)
-    : DbContext(options), IApplicationDbContext
+    : IdentityDbContext<User, Role, Guid>(options), IApplicationDbContext
 {
+    public DbSet<Tenant> Tenants => Set<Tenant>();
+    public DbSet<RefreshToken> RefreshTokens => Set<RefreshToken>();
+    // TODO: Implement feature flags
+    //public DbSet<FeatureFlagOverride> FeatureFlags => Set<FeatureFlagOverride>();
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(DbContainer).Assembly);
