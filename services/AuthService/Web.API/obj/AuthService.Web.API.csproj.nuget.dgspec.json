@@ -199,6 +199,18 @@
             "Microsoft.Extensions.Diagnostics.HealthChecks": {
               "target": "Package",
               "version": "[9.0.10, )"
+            },
+            "Microsoft.Extensions.Http.Polly": {
+              "target": "Package",
+              "version": "[9.0.10, )"
+            },
+            "Microsoft.Extensions.Resilience": {
+              "target": "Package",
+              "version": "[9.10.0, )"
+            },
+            "Polly": {
+              "target": "Package",
+              "version": "[8.6.4, )"
             }
           },
           "imports": [

@@ -3,6 +3,7 @@ using AuthService.Infrastructure;
 using AuthService.Infrastructure.Database;
 using AuthService.Infrastructure.Database.Entities;
 using AuthService.Infrastructure.Database.Identity;
+using AuthService.Infrastructure.Database.Transactions;
 using AuthService.Infrastructure.DomainEvents;
 using AuthService.Infrastructure.Time;
 using Microsoft.AspNetCore.Identity;
@@ -43,8 +44,6 @@ public static class DependencyInjection
                 .UseSqlServer(connectionString, opt =>
                     opt.MigrationsHistoryTable(HistoryRepository.DefaultTableName, Schemas.Default)));
 
-        services.AddScoped<IApplicationDbContext>(sp => sp.GetRequiredService<DbContainer>());
-
         services.AddIdentity();
         
         return services;
@@ -75,6 +74,14 @@ public static class DependencyInjection
             .AddUserStore<ApplicationUserStore>()
             .AddRoleStore<RoleStore<Role, DbContainer, Guid>>()
             .AddDefaultTokenProviders();
+        
+        return services;
+    }
+
+    private static IServiceCollection AddUnitOfWork(this IServiceCollection services)
+    {
+        services.AddScoped<IUnitOfWork, UnitOfWork>();
+
         return services;
     }
 }
