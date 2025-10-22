@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "Mk2LacbKHs8=",
+  "dgSpecHash": "Hp4b9QornaM=",
   "success": true,
   "projectFilePath": "C:\\Workspace\\SaaSPlatform\\services\\AuthService\\Application\\AuthService.Application.csproj",
   "expectedPackageFiles": [
@@ -69,7 +69,10 @@
     "C:\\Users\\brian\\.nuget\\packages\\system.text.json\\8.0.5\\system.text.json.8.0.5.nupkg.sha512",
     "C:\\Users\\brian\\.nuget\\packages\\system.threading.tasks.extensions\\4.5.4\\system.threading.tasks.extensions.4.5.4.nupkg.sha512",
     "C:\\Users\\brian\\.nuget\\packages\\unleash.client\\5.5.1\\unleash.client.5.5.1.nupkg.sha512",
-    "C:\\Users\\brian\\.nuget\\packages\\unleash.yggdrasil\\1.1.0\\unleash.yggdrasil.1.1.0.nupkg.sha512"
+    "C:\\Users\\brian\\.nuget\\packages\\unleash.yggdrasil\\1.1.0\\unleash.yggdrasil.1.1.0.nupkg.sha512",
+    "C:\\Users\\brian\\.nuget\\packages\\microsoft.netcore.app.ref\\9.0.10\\microsoft.netcore.app.ref.9.0.10.nupkg.sha512",
+    "C:\\Users\\brian\\.nuget\\packages\\microsoft.windowsdesktop.app.ref\\9.0.10\\microsoft.windowsdesktop.app.ref.9.0.10.nupkg.sha512",
+    "C:\\Users\\brian\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\9.0.10\\microsoft.aspnetcore.app.ref.9.0.10.nupkg.sha512"
   ],
   "logs": []
 }

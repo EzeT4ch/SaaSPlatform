@@ -25,7 +25,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Profiles\" />
+      <Folder Include="Database\Profiles\" />
     </ItemGroup>
 
 </Project>
