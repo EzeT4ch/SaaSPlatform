@@ -1,10 +1,9 @@
-﻿using AuthService.Application.Abstractions.Data;
-using AuthService.Infrastructure;
-using AuthService.Infrastructure.Database;
+﻿using AuthService.Infrastructure.Database;
 using AuthService.Infrastructure.Database.Entities;
 using AuthService.Infrastructure.Database.Identity;
 using AuthService.Infrastructure.Database.Transactions;
 using AuthService.Infrastructure.DomainEvents;
+using AuthService.Infrastructure.Segurity.Jwt;
 using AuthService.Infrastructure.Time;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
@@ -18,13 +17,16 @@ namespace AuthService.Infrastructure;
 
 public static class DependencyInjection
 {
-     public static IServiceCollection AddInfrastructure(
+    public static IServiceCollection AddInfrastructure(
         this IServiceCollection services,
         IConfiguration configuration) =>
         services
             .AddServices()
             .AddDatabase(configuration)
-            .AddHealthChecks(configuration);
+            .AddIdentity()
+            .AddHealthChecks(configuration)
+            .AddUnitOfWork()
+            .AddSecurity(configuration);
 
     private static IServiceCollection AddServices(this IServiceCollection services)
     {
@@ -39,23 +41,22 @@ public static class DependencyInjection
     {
         string? connectionString = configuration.GetConnectionString("Database");
 
-        services.AddDbContext<DbContainer>(
-            options => options
-                .UseSqlServer(connectionString, opt =>
-                    opt.MigrationsHistoryTable(HistoryRepository.DefaultTableName, Schemas.Default)));
+        services.AddDbContext<DbContainer>(options => options
+            .UseSqlServer(connectionString, opt =>
+                opt.MigrationsHistoryTable(HistoryRepository.DefaultTableName, Schemas.Default)));
 
         services.AddIdentity();
-        
+
         return services;
     }
 
     private static IServiceCollection AddHealthChecks(this IServiceCollection services, IConfiguration configuration)
     {
         string? connectionString = configuration.GetConnectionString("Database");
-        
-        if(string.IsNullOrEmpty(connectionString))
+
+        if (string.IsNullOrEmpty(connectionString))
             return services;
-        
+
         services
             .AddHealthChecks()
             .AddSqlServer(connectionString);
@@ -63,7 +64,13 @@ public static class DependencyInjection
         return services;
     }
 
-   private static IServiceCollection AddIdentity(this IServiceCollection services)
+    public static IServiceCollection AddSecurity(this IServiceCollection services, IConfiguration config)
+    {
+        services.AddJwtAuthentication(config);
+        return services;
+    }
+
+    private static IServiceCollection AddIdentity(this IServiceCollection services)
     {
         services.AddIdentity<User, Role>(options =>
             {
@@ -74,7 +81,7 @@ public static class DependencyInjection
             .AddUserStore<ApplicationUserStore>()
             .AddRoleStore<RoleStore<Role, DbContainer, Guid>>()
             .AddDefaultTokenProviders();
-        
+
         return services;
     }
 
