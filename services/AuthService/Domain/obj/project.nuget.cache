@@ -1,12 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "6R8Ama/7eFc=",
+  "dgSpecHash": "79uFvnw3fZ0=",
   "success": true,
   "projectFilePath": "C:\\Workspace\\SaaSPlatform\\services\\AuthService\\Domain\\AuthService.Domain.csproj",
-  "expectedPackageFiles": [
-    "C:\\Users\\brian\\.nuget\\packages\\microsoft.netcore.app.ref\\9.0.10\\microsoft.netcore.app.ref.9.0.10.nupkg.sha512",
-    "C:\\Users\\brian\\.nuget\\packages\\microsoft.windowsdesktop.app.ref\\9.0.10\\microsoft.windowsdesktop.app.ref.9.0.10.nupkg.sha512",
-    "C:\\Users\\brian\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\9.0.10\\microsoft.aspnetcore.app.ref.9.0.10.nupkg.sha512"
-  ],
+  "expectedPackageFiles": [],
   "logs": []
 }
