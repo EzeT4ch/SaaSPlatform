@@ -39,8 +39,6 @@ public static class JwtConfiguration
                 };
             });
 
-        services.AddScoped<IJwtProvider, JwtProvider>();
-
         return services;
     }
 }

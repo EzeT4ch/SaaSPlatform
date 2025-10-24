@@ -2,6 +2,7 @@
 using System.Security.Claims;
 using System.Text;
 using AuthService.Infrastructure.Database.Entities;
+using AuthService.Infrastructure.Segurity.Services;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 
@@ -42,5 +43,44 @@ public class JwtProvider : IJwtProvider
         );
 
         return new JwtSecurityTokenHandler().WriteToken(token);
+    }
+    
+    public async Task<(string AccessToken, string RefreshToken)> GenerateTokensAsync(
+        User user,
+        IEnumerable<string>? roles,
+        IRefreshTokenService refreshService,
+        CancellationToken ct = default)
+    {
+        //TODO: Pendiente implementar feature flag para refresh Token
+        string accessToken = Generate(user, roles);
+        string refreshToken = await refreshService.CreateAsync(user, ct);
+        return (accessToken, refreshToken);
+    }
+
+    public bool Validate(string token)
+    {
+        JwtSecurityTokenHandler tokenHandler = new ();
+        byte[] key = Encoding.UTF8.GetBytes(_settings.Key);
+
+        try
+        {
+            tokenHandler.ValidateToken(token, new TokenValidationParameters
+            {
+                ValidateIssuer = true,
+                ValidateAudience = true,
+                ValidateLifetime = true,
+                ValidateIssuerSigningKey = true,
+                ValidIssuer = _settings.Issuer,
+                ValidAudience = _settings.Audience,
+                IssuerSigningKey = new SymmetricSecurityKey(key),
+                ClockSkew = TimeSpan.Zero
+            }, out SecurityToken validatedToken);
+
+            return validatedToken is JwtSecurityToken;
+        }
+        catch
+        {
+            return false;
+        }
     }
 }

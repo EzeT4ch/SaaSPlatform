@@ -4,6 +4,7 @@ using AuthService.Infrastructure.Database.Identity;
 using AuthService.Infrastructure.Database.Transactions;
 using AuthService.Infrastructure.DomainEvents;
 using AuthService.Infrastructure.Segurity.Jwt;
+using AuthService.Infrastructure.Segurity.Services;
 using AuthService.Infrastructure.Time;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
@@ -67,6 +68,8 @@ public static class DependencyInjection
     public static IServiceCollection AddSecurity(this IServiceCollection services, IConfiguration config)
     {
         services.AddJwtAuthentication(config);
+        services.AddScoped<IJwtProvider, JwtProvider>();
+        services.AddScoped<IRefreshTokenService, RefreshTokenService>();
         return services;
     }
 
