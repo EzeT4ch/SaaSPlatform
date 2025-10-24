@@ -70,3 +70,4 @@ coverage/
 .cache/
 */.dll
 *.dll
+/services/AuthService/.vs/AuthService
