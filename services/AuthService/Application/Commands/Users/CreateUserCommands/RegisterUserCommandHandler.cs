@@ -1,27 +1,51 @@
 ﻿using AuthService.Application.Abstractions.Messaging;
-using AuthService.Infrastructure.Database.Repositories;
 using AuthService.Domain.Entities;
+using AuthService.Domain.Events.Users;
+using AuthService.Infrastructure.Database.Repositories;
+using AuthService.Infrastructure.Database.Transactions;
+using AutoMapper;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Shared;
-
 using UserModel = AuthService.Infrastructure.Database.Entities.User;
 
 namespace AuthService.Application.Commands.Users.CreateUserCommands;
 
-internal sealed class RegisterUserCommandHandler(IRepository<UserModel,User> repository) : ICommandHandler<RegisterUserCommand, Guid>
+internal sealed class RegisterUserCommandHandler(
+ IRepository<UserModel, User> repository,
+ IMapper mapper,
+ IPasswordHasher<UserModel> passwordHasher,
+ IUnitOfWork unitOfWork) : ICommandHandler<RegisterUserCommand, Guid>
 {
-    public Task<Result<Guid>> Handle(RegisterUserCommand command, CancellationToken cancellationToken)
+    public async Task<Result<Guid>> Handle(RegisterUserCommand command, CancellationToken cancellationToken)
     {
-        // 1. Validamos usuario
+        User user = CreateDomainUser(command);
 
-        // 2. Creamos usuario
+        await PersistUserAsync(user, cancellationToken);
 
-        // 3. Agregamos eventos de dominio (Notificaciones etc)
+        return Result<Guid>.Success(user.Id);
+    }
 
-        // 4. Guardamos en base de datos
+    private User CreateDomainUser(RegisterUserCommand command)
+    {
+        User user = mapper.Map<User>(command);
+        user.Id = Guid.Empty;
 
-        // 5. Retornamos resultado
+        UserModel userModelForHashing = mapper.Map<UserModel>(user);
+        user.PasswordHash = passwordHasher.HashPassword(userModelForHashing, command.password);
 
-        return Task.FromResult(Result<Guid>.ValidationFailure(new Shared.Error("NotImplemented", "This command handler is not implemented yet.", ErrorType.Problem)));
+        user.Raise(new RegisterUserEvent(user.Id));
+
+        return user;
+    }
+
+    private async Task PersistUserAsync(User user, CancellationToken cancellationToken)
+    {
+        await unitOfWork.BeginTransactionAsync(cancellationToken);
+
+        await repository.AddAsync(user, cancellationToken);
+        await unitOfWork.SaveChangesAsync(cancellationToken);
+
+        await unitOfWork.CommitAsync(cancellationToken);
     }
 }
-

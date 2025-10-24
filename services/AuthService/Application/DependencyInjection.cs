@@ -36,6 +36,9 @@ public static class DependencyInjection
 
         services.AddValidatorsFromAssembly(typeof(DependencyInjection).Assembly, includeInternalTypes: true);
 
+        // AutoMapper
+        services.AddAutoMapper(cfg => { }, typeof(DependencyInjection).Assembly);
+
         return services;
     }
 }
