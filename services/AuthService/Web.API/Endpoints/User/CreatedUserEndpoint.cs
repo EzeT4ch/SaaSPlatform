@@ -17,7 +17,7 @@ public class CreatedUserEndpoint : IEndpoint
             ICommandHandler<RegisterUserCommand, Guid> handler,
             CancellationToken cToken) =>
         {
-            var command = new RegisterUserCommand(req.email, req.username, req.password, req.fullName, req.tenantId, req.role);
+            RegisterUserCommand command = new (req.email, req.username, req.password, req.fullName, req.tenantId, req.role);
 
             Result<Guid> result =  await handler.Handle(command, cToken);
 
