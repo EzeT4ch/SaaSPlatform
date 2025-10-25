@@ -27,7 +27,7 @@ WebApplication app = builder.Build();
 
 app.MapEndpoints();
 
-if (!app.Environment.IsDevelopment())
+if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
     
