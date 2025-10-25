@@ -9,7 +9,14 @@ namespace AuthService.Web.API.Endpoints.User;
 
 public class CreatedUserEndpoint : IEndpoint
 {
-    public sealed record Request(string username, string password, Guid tenantId, string email, string fullName, UserRole role);
+    private sealed record Request(
+        string username,
+        string password,
+        Guid tenantId,
+        string email,
+        string fullName,
+        UserRole role);
+
     public void MapEndpoint(IEndpointRouteBuilder app)
     {
         app.MapPost("users/register", async (
@@ -17,9 +24,10 @@ public class CreatedUserEndpoint : IEndpoint
             ICommandHandler<RegisterUserCommand, Guid> handler,
             CancellationToken cToken) =>
         {
-            RegisterUserCommand command = new (req.email, req.username, req.password, req.fullName, req.tenantId, req.role);
+            RegisterUserCommand command = new(req.email, req.username, req.password, req.fullName, req.tenantId,
+                req.role);
 
-            Result<Guid> result =  await handler.Handle(command, cToken);
+            Result<Guid> result = await handler.Handle(command, cToken);
 
             return result.Match(
                 success => Results.Created($"/users/{success}", success),
@@ -27,4 +35,3 @@ public class CreatedUserEndpoint : IEndpoint
         }).WithTags("User");
     }
 }
-
