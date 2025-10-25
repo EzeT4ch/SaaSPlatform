@@ -8,16 +8,22 @@ namespace AuthService.Web.API.Endpoints.Tenant
 {
     public class CreateTenantEndpoint : IEndpoint
     {
-        public sealed record Request(string TenantName, string Email, string Password, string FullName, string Username);
+        private sealed record Request(
+            string TenantName,
+            string Email,
+            string Password,
+            string FullName,
+            string Username);
 
         public void MapEndpoint(IEndpointRouteBuilder app)
         {
             app.MapPost("tenants/register", async (
-            Request req,
-            ICommandHandler<RegisterTenantAdminCommand, Guid> handler,
-            CancellationToken cToken) =>
+                Request req,
+                ICommandHandler<RegisterTenantAdminCommand, Guid> handler,
+                CancellationToken cToken) =>
             {
-                RegisterTenantAdminCommand command = new(req.TenantName, req.Email, req.Password, req.FullName, req.Username);
+                RegisterTenantAdminCommand command = new(req.TenantName, req.Email, req.Password, req.FullName,
+                    req.Username);
 
                 Result<Guid> result = await handler.Handle(command, cToken);
 

@@ -9,5 +9,6 @@ public class UserLoginsConfiguration : IEntityTypeConfiguration<IdentityUserLogi
     public void Configure(EntityTypeBuilder<IdentityUserLogin<Guid>> builder)
     {
         builder.ToTable("UserLogins");
+        builder.HasKey(ul => new { ul.LoginProvider, ul.ProviderKey });
     }
 }

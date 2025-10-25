@@ -9,5 +9,6 @@ public class UserTokensConfiguration : IEntityTypeConfiguration<IdentityUserToke
     public void Configure(EntityTypeBuilder<IdentityUserToken<Guid>> builder)
     {
         builder.ToTable("UserTokens");
+        builder.HasKey(ut => new { ut.UserId, ut.LoginProvider, ut.Name });
     }
 }

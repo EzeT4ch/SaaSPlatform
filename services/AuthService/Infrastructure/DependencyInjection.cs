@@ -16,6 +16,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Shared;
 using UserModel = AuthService.Infrastructure.Database.Entities.User;
+using TenantModel = AuthService.Infrastructure.Database.Entities.Tenant;
 
 namespace AuthService.Infrastructure;
 
@@ -31,6 +32,7 @@ public static partial class DependencyInjection
             .AddHealthChecks(configuration)
             .AddUnitOfWork()
             .AddSecurity(configuration)
+            .AddAutoMapperInfrastructure()
             .AddRepositories();
 
     private static IServiceCollection AddServices(this IServiceCollection services)
@@ -41,6 +43,12 @@ public static partial class DependencyInjection
 
         return services;
     }
+    
+    private static IServiceCollection AddAutoMapperInfrastructure(this IServiceCollection services)
+    {
+        services.AddAutoMapper(cfg => { }, typeof(DependencyInjection).Assembly);
+        return services;
+    }
 
     private static IServiceCollection AddDatabase(this IServiceCollection services, IConfiguration configuration)
     {
@@ -49,8 +57,6 @@ public static partial class DependencyInjection
         services.AddDbContext<DbContainer>(options => options
             .UseSqlServer(connectionString, opt =>
                 opt.MigrationsHistoryTable(HistoryRepository.DefaultTableName, Schemas.Default)));
-
-        services.AddIdentity();
 
         return services;
     }
@@ -68,9 +74,10 @@ public static partial class DependencyInjection
         return services;
     }
 
-    public static IServiceCollection AddSecurity(this IServiceCollection services, IConfiguration config)
+    private static IServiceCollection AddSecurity(this IServiceCollection services, IConfiguration config)
     {
         services.AddJwtAuthentication(config);
+        services.AddAuthorization();
         services.AddScoped<IJwtProvider, JwtProvider>();
         services.AddScoped<IRefreshTokenService, RefreshTokenService>();
         return services;
@@ -103,11 +110,10 @@ public static partial class DependencyInjection
         ServiceProvider serviceProvider = services.BuildServiceProvider();
         IMapper mapper = serviceProvider.GetRequiredService<IMapper>();
 
-        services.AddRepository<UserModel, User>(
-            toDomain: m => mapper.Map<User>(m),
-            toModel: d => mapper.Map<UserModel>(d)
-        );
+        services.AddRepository<UserModel, Domain.Entities.User>();
 
+        services.AddRepository<TenantModel, Domain.Entities.Tenant>();
+        
         return services;
     }
 }
