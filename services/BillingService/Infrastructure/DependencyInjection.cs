@@ -3,6 +3,7 @@ using BillingService.Infrastructure;
 using BillingService.Infrastructure.Database;
 using BillingService.Infrastructure.DomainEvents;
 using BillingService.Infrastructure.Time;
+using BillingService.Infrastructure.Transactions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.Extensions.Configuration;
@@ -26,6 +27,8 @@ public static class DependencyInjection
         services.AddSingleton<IDateTimeProvider, DateTimeProvider>();
 
         services.AddTransient<IDomainEventsDispatcher, DomainEventsDispatcher>();
+
+        services.AddScoped<IUnitOfWork, UnitOfWork>();
 
         return services;
     }
