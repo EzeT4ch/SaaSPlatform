@@ -10,7 +10,7 @@ using UserModel = AuthService.Infrastructure.Database.Entities.User;
 
 namespace AuthService.Application.Commands.Tenant.CreateUserCommands;
 
-internal sealed class RegisterUserCommandHandler(
+public sealed class RegisterUserCommandHandler(
  IRepository<UserModel, User> repository,
  IMapper mapper,
  IPasswordHasher<UserModel> passwordHasher,
@@ -28,7 +28,7 @@ internal sealed class RegisterUserCommandHandler(
     private User CreateDomainUser(RegisterUserCommand command)
     {
         User user = mapper.Map<User>(command);
-        user.Id = Guid.Empty;
+     user.Id = Guid.NewGuid();
 
         UserModel userModelForHashing = mapper.Map<UserModel>(user);
         user.PasswordHash = passwordHasher.HashPassword(userModelForHashing, command.password);
