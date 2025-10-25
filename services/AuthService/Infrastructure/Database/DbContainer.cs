@@ -1,14 +1,10 @@
-﻿using AuthService.Application.Abstractions.Data;
-using AuthService.Infrastructure.Database.Entities;
-using AuthService.Infrastructure.DomainEvents;
-using Microsoft.AspNetCore.Identity;
+﻿using AuthService.Infrastructure.Database.Entities;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using Shared;
 
 namespace AuthService.Infrastructure.Database;
 
-public sealed class DbContainer (
+public sealed class DbContainer(
     DbContextOptions<DbContainer> options)
     : IdentityDbContext<User, Role, Guid>(options)
 {

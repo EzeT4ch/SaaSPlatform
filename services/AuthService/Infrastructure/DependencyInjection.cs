@@ -1,11 +1,13 @@
 ﻿using AuthService.Infrastructure.Database;
 using AuthService.Infrastructure.Database.Entities;
+using AuthService.Infrastructure.Database.Extensions;
 using AuthService.Infrastructure.Database.Identity;
 using AuthService.Infrastructure.Database.Transactions;
 using AuthService.Infrastructure.DomainEvents;
 using AuthService.Infrastructure.Segurity.Jwt;
 using AuthService.Infrastructure.Segurity.Services;
 using AuthService.Infrastructure.Time;
+using AutoMapper;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -13,10 +15,11 @@ using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Shared;
+using UserModel = AuthService.Infrastructure.Database.Entities.User;
 
 namespace AuthService.Infrastructure;
 
-public static class DependencyInjection
+public static partial class DependencyInjection
 {
     public static IServiceCollection AddInfrastructure(
         this IServiceCollection services,
@@ -27,7 +30,8 @@ public static class DependencyInjection
             .AddIdentity()
             .AddHealthChecks(configuration)
             .AddUnitOfWork()
-            .AddSecurity(configuration);
+            .AddSecurity(configuration)
+            .AddRepositories();
 
     private static IServiceCollection AddServices(this IServiceCollection services)
     {
@@ -59,8 +63,7 @@ public static class DependencyInjection
             return services;
 
         services
-            .AddHealthChecks()
-            .AddSqlServer(connectionString);
+            .AddHealthChecks();
 
         return services;
     }
@@ -91,6 +94,19 @@ public static class DependencyInjection
     private static IServiceCollection AddUnitOfWork(this IServiceCollection services)
     {
         services.AddScoped<IUnitOfWork, UnitOfWork>();
+
+        return services;
+    }
+
+    private static IServiceCollection AddRepositories(this IServiceCollection services)
+    {
+        ServiceProvider serviceProvider = services.BuildServiceProvider();
+        IMapper mapper = serviceProvider.GetRequiredService<IMapper>();
+
+        services.AddRepository<UserModel, User>(
+            toDomain: m => mapper.Map<User>(m),
+            toModel: d => mapper.Map<UserModel>(d)
+        );
 
         return services;
     }
