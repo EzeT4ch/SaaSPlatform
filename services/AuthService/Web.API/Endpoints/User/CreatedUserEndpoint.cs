@@ -1,5 +1,5 @@
 ﻿using AuthService.Application.Abstractions.Messaging;
-using AuthService.Application.Commands.Users.CreateUserCommands;
+using AuthService.Application.Commands.Tenant.CreateUserCommands;
 using AuthService.Domain.Enums;
 using AuthService.Web.API.Extensions;
 using AuthService.Web.API.Infrastructure;

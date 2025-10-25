@@ -5,7 +5,7 @@ namespace AuthService.Domain.Entities;
 
 public class User : Entity
 {
-    public Guid Id { get; set; }
+    public Guid Id { get; set; } = Guid.NewGuid();
 
     public string UserName { get; set; } = null!;
     public string Email { get; set; } = null!;
@@ -22,4 +22,14 @@ public class User : Entity
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
   
     public Tenant Tenant { get; set; } = null!;
+
+    public void AssignRole(string role)
+    {
+        Role = role.ToLower() switch
+        {
+            "admin" => UserRole.Admin,
+            "client" => UserRole.Client,
+            _ => throw new ArgumentException("Invalid role", nameof(role))
+        };
+    }
 }

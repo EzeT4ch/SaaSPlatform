@@ -4,7 +4,7 @@ using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using UserModel = AuthService.Infrastructure.Database.Entities.User;
 
-namespace AuthService.Application.Commands.Users.CreateUserCommands;
+namespace AuthService.Application.Commands.Tenant.CreateUserCommands;
 
 internal sealed class RegisterUserCommandValidator : AbstractValidator<RegisterUserCommand>
 {
@@ -32,6 +32,9 @@ internal sealed class RegisterUserCommandValidator : AbstractValidator<RegisterU
 
         RuleFor(x => x.tenantId)
             .NotEmpty().WithMessage("TenantId is required.");
+
+        RuleFor(x => x.tenantName)
+            .MaximumLength(100).WithMessage("Tenant name must not exceed 100 characters.");
 
         RuleFor(x => x.role)
             .IsInEnum().WithMessage("Role value is invalid.");

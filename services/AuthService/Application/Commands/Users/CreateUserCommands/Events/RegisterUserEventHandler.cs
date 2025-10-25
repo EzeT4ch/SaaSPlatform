@@ -1,7 +1,7 @@
 ﻿using AuthService.Domain.Events.Users;
 using Shared;
 
-namespace AuthService.Application.Commands.Users.CreateUserCommands.Events;
+namespace AuthService.Application.Commands.Tenant.CreateUserCommands.Events;
 
 internal sealed class RegisterUserEventHandler : IDomainEventHandler<RegisterUserEvent>
 {

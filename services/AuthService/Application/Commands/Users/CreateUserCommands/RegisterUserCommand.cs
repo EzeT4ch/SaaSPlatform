@@ -1,7 +1,7 @@
 ﻿using AuthService.Application.Abstractions.Messaging;
 using AuthService.Domain.Enums;
 
-namespace AuthService.Application.Commands.Users.CreateUserCommands;
+namespace AuthService.Application.Commands.Tenant.CreateUserCommands;
 
 public sealed record RegisterUserCommand(
     string email,
@@ -9,6 +9,7 @@ public sealed record RegisterUserCommand(
     string password,
     string fullName,
     Guid tenantId,
-    UserRole role
+    UserRole role,
+    string? tenantName = null
 ) : ICommand<Guid>;
 

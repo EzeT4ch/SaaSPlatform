@@ -5,11 +5,10 @@ using AuthService.Infrastructure.Database.Repositories;
 using AuthService.Infrastructure.Database.Transactions;
 using AutoMapper;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 using Shared;
 using UserModel = AuthService.Infrastructure.Database.Entities.User;
 
-namespace AuthService.Application.Commands.Users.CreateUserCommands;
+namespace AuthService.Application.Commands.Tenant.CreateUserCommands;
 
 internal sealed class RegisterUserCommandHandler(
  IRepository<UserModel, User> repository,
