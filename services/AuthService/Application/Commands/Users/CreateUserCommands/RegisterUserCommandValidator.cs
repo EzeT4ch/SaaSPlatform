@@ -14,7 +14,7 @@ internal sealed class RegisterUserCommandValidator : AbstractValidator<RegisterU
         _repository = repository;
 
         RuleFor(x => x.email)
-            .MustAsync(BeUniqueEmail).WithMessage("Unique email")
+            .MustAsync(BeUniqueEmail).WithMessage("Email address is already in use")
             .NotEmpty().WithMessage("Email is required.")
             .EmailAddress().WithMessage("Email is not valid.");
 
