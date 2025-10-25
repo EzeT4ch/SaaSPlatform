@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using PaymentAdapter.Infrastructure.Database;
+using PaymentAdapter.Infrastructure.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
