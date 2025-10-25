@@ -8,7 +8,7 @@ public class DbContainerFactory : IDesignTimeDbContextFactory<DbContainer>
 {
     public DbContainer CreateDbContext(string[] args)
     {
-        // Construir configuración para leer appsettings.json
+        // Build configuration to read appsettings.json
         IConfigurationRoot configuration = new ConfigurationBuilder()
             .SetBasePath(Path.Combine(Directory.GetCurrentDirectory(), "../Web.API"))
             .AddJsonFile("appsettings.json", optional: false)
