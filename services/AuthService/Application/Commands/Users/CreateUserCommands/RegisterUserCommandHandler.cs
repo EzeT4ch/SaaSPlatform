@@ -28,7 +28,6 @@ public sealed class RegisterUserCommandHandler(
     private User CreateDomainUser(RegisterUserCommand command)
     {
         User user = mapper.Map<User>(command);
-     user.Id = Guid.NewGuid();
 
         UserModel userModelForHashing = mapper.Map<UserModel>(user);
         user.PasswordHash = passwordHasher.HashPassword(userModelForHashing, command.password);
