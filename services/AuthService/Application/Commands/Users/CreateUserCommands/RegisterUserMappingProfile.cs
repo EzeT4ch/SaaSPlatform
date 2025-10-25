@@ -8,7 +8,6 @@ internal sealed class RegisterUserMappingProfile : Profile
     public RegisterUserMappingProfile()
     {
         CreateMap<RegisterUserCommand, User>()
-        .ForMember(d => d.Id, opt => opt.MapFrom(_ => Guid.NewGuid()))
         .ForMember(d => d.Email, opt => opt.MapFrom(s => s.email))
         .ForMember(d => d.UserName, opt => opt.MapFrom(s => s.username))
         .ForMember(d => d.FullName, opt => opt.MapFrom(s => s.fullName))
