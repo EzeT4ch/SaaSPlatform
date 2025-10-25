@@ -1,5 +1,56 @@
+# Carpetas de compilación
 bin/
 obj/
+out/
+
+# Paquetes NuGet
 /packages/
+*.nupkg
+*.snupkg
+
+# Visual Studio
+.vs/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+*.vsidx
+*.vssscc
+
+# Rider (JetBrains)
+.idea/
 riderModule.iml
 /_ReSharper.Caches/
+*.DotSettings.user
+
+# VS Code
+.vscode/
+
+# Archivos de usuario y temporales
+*.log
+*.cache
+*.swp
+*~
+
+# Archivos específicos de VS
+**/.vs/
+**/obj/
+**/bin/
+
+# Archivos de cache de diseño
+*.dtbcache.v2
+*.futdcache.v2
+
+# Test Results
+TestResults/
+*.trx
+*.coverage
+*.coveragexml
+
+# Sistema
+.DS_Store
+Thumbs.db
+
+# Configuración local
+appsettings.*.local.json
+**/appsettings.Local.json
