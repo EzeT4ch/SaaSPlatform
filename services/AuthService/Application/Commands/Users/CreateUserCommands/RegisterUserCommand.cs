@@ -1,7 +1,7 @@
 ﻿using AuthService.Application.Abstractions.Messaging;
 using AuthService.Domain.Enums;
 
-namespace AuthService.Application.Commands.Tenant.CreateUserCommands;
+namespace AuthService.Application.Commands.Users.CreateUserCommands;
 
 public sealed record RegisterUserCommand(
     string email,

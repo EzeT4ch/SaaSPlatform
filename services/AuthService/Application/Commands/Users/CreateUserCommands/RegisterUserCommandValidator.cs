@@ -4,7 +4,7 @@ using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using UserModel = AuthService.Infrastructure.Database.Entities.User;
 
-namespace AuthService.Application.Commands.Tenant.CreateUserCommands;
+namespace AuthService.Application.Commands.Users.CreateUserCommands;
 
 internal sealed class RegisterUserCommandValidator : AbstractValidator<RegisterUserCommand>
 {

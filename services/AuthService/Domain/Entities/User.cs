@@ -32,4 +32,9 @@ public class User : Entity
             _ => throw new ArgumentException("Invalid role", nameof(role))
         };
     }
+    
+    public void Deactivate()
+    {
+        IsActive = false;
+    }
 }

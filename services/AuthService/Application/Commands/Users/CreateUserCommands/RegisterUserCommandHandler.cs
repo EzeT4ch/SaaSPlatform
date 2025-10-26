@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Identity;
 using Shared;
 using UserModel = AuthService.Infrastructure.Database.Entities.User;
 
-namespace AuthService.Application.Commands.Tenant.CreateUserCommands;
+namespace AuthService.Application.Commands.Users.CreateUserCommands;
 
 public sealed class RegisterUserCommandHandler(
  IRepository<UserModel, User> repository,
@@ -16,13 +16,13 @@ public sealed class RegisterUserCommandHandler(
  IPasswordHasher<UserModel> passwordHasher,
  IUnitOfWork unitOfWork) : ICommandHandler<RegisterUserCommand, Guid>
 {
-    public async Task<Result<Guid>> Handle(RegisterUserCommand command, CancellationToken cancellationToken)
+    public async Task<Result<Guid>> Handle(RegisterUserCommand command, CancellationToken cToken)
     {
         User user = CreateDomainUser(command);
 
-        await PersistUserAsync(user, cancellationToken);
+        await PersistUserAsync(user, cToken);
 
-        return Result<Guid>.Success(user.Id);
+        return Result.Success(user.Id);
     }
 
     private User CreateDomainUser(RegisterUserCommand command)

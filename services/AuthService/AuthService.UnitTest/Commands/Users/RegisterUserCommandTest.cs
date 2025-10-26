@@ -1,4 +1,5 @@
 ﻿using AuthService.Application.Commands.Tenant.CreateUserCommands;
+using AuthService.Application.Commands.Users.CreateUserCommands;
 using AuthService.Domain.Enums;
 using AuthService.Infrastructure.Database.Repositories;
 using AuthService.Infrastructure.Database.Transactions;

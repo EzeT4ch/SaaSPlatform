@@ -4,10 +4,13 @@ using AuthService.Infrastructure.Database.Extensions;
 using AuthService.Infrastructure.Database.Identity;
 using AuthService.Infrastructure.Database.Transactions;
 using AuthService.Infrastructure.DomainEvents;
+using AuthService.Infrastructure.Segurity.Authentication;
+using AuthService.Infrastructure.Segurity.Authorization;
 using AuthService.Infrastructure.Segurity.Jwt;
 using AuthService.Infrastructure.Segurity.Services;
 using AuthService.Infrastructure.Time;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -32,6 +35,7 @@ public static partial class DependencyInjection
             .AddHealthChecks(configuration)
             .AddUnitOfWork()
             .AddSecurity(configuration)
+            .AddAuthorizationInternal()
             .AddAutoMapperInfrastructure()
             .AddRepositories();
 
@@ -77,12 +81,28 @@ public static partial class DependencyInjection
     private static IServiceCollection AddSecurity(this IServiceCollection services, IConfiguration config)
     {
         services.AddJwtAuthentication(config);
-        services.AddAuthorization();
+        services.AddHttpContextAccessor();
+        
+        services.AddScoped<IUserContext, UserContext>();
         services.AddScoped<IJwtProvider, JwtProvider>();
         services.AddScoped<IRefreshTokenService, RefreshTokenService>();
+        
         return services;
     }
 
+    private static IServiceCollection AddAuthorizationInternal(this IServiceCollection services)
+    {
+        services.AddAuthorization();
+
+        services.AddScoped<PermissionProvider>();
+
+        services.AddTransient<IAuthorizationHandler, PermissionAuthorizationHandler>();
+
+        services.AddTransient<IAuthorizationPolicyProvider, PermissionAuthorizationPolicyProvider>();
+
+        return services;
+    }
+    
     private static IServiceCollection AddIdentity(this IServiceCollection services)
     {
         services.AddIdentity<User, Role>(options =>
