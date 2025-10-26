@@ -8,14 +8,9 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace AuthService.Infrastructure.Segurity.Jwt;
 
-public class JwtProvider : IJwtProvider
+public class JwtProvider(IOptions<JwtSettings> settings) : IJwtProvider
 {
-    private readonly JwtSettings _settings;
-
-    public JwtProvider(IOptions<JwtSettings> settings)
-    {
-        _settings = settings.Value;
-    }
+    private readonly JwtSettings _settings = settings.Value;
 
     public string Generate(User user, IEnumerable<string>? roles = null)
     {
@@ -26,7 +21,7 @@ public class JwtProvider : IJwtProvider
         [
             new(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
             new(JwtRegisteredClaimNames.Email, user.Email),
-            new("tenantId", user.TenantId.ToString())
+            new("tenantId", user.TenantId.ToString()),
         ];
 
         if (roles != null)

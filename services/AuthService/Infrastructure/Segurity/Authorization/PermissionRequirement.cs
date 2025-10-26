@@ -2,12 +2,7 @@
 
 namespace AuthService.Infrastructure.Segurity.Authorization;
 
-internal sealed class PermissionRequirement : IAuthorizationRequirement
+internal sealed class PermissionRequirement(string permission) : IAuthorizationRequirement
 {
-    public PermissionRequirement(string permission)
-    {
-        Permission = permission;
-    }
-
-    public string Permission { get; }
+    public string Permission { get; } = permission;
 }

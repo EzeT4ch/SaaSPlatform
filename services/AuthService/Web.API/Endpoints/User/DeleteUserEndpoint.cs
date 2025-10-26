@@ -25,8 +25,7 @@ public class DeleteUserEndpoint : IEndpoint
                 () => Results.NotFound("User deleted successfully."),
                 CustomResults.Problem);
         })
-        .WithTags("Users")
-        .RequireAuthorization()
-        .HasPermission("Admin");
+        .RequireAuthorization("users.delete")
+        .WithTags("Users");
     }
 }

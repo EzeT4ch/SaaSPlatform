@@ -1,12 +1,44 @@
-﻿namespace AuthService.Infrastructure.Segurity.Authorization;
+﻿using AuthService.Infrastructure.Database.Entities;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 
-internal sealed class PermissionProvider
+namespace AuthService.Infrastructure.Segurity.Authorization;
+
+internal sealed class PermissionProvider(UserManager<User> userManager, RoleManager<Role> roleManager)
 {
-    public Task<HashSet<string>> GetForUserIdAsync(Guid userId)
+    public async Task<HashSet<string>> GetForUserIdAsync(Guid userId)
     {
-        // TODO: Here you'll implement your logic to fetch permissions.
-        HashSet<string> permissionsSet = [];
+        User? user = await userManager.FindByIdAsync(userId.ToString());
 
-        return Task.FromResult(permissionsSet);
+        if (user is null)
+            return [];
+
+        IList<string> roles = await userManager.GetRolesAsync(user);
+        HashSet<string> permissions = new(StringComparer.OrdinalIgnoreCase);
+        
+        if (roles.Contains("Admin"))
+        {
+            permissions.Add("Admin");
+            permissions.Add("*");
+            return permissions;
+        }
+        
+        foreach (string roleName in roles)
+        {
+            Role? role = await roleManager.Roles
+                .Include(r => r.RolePermissions)
+                .FirstOrDefaultAsync(r => r.Name == roleName);
+            
+            if (role == null)
+                continue;
+
+            if (!string.IsNullOrEmpty(role.ConcurrencyStamp))
+            {
+                foreach (string perm in role.ConcurrencyStamp.Split(',', StringSplitOptions.RemoveEmptyEntries))
+                    permissions.Add(perm.Trim());
+            }
+        }
+
+        return permissions;
     }
 }
