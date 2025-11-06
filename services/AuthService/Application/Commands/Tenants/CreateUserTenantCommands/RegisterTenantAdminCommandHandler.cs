@@ -28,7 +28,7 @@ internal sealed class RegisterTenantAdminCommandHandler(
         await unitOfWork.BeginTransactionAsync(cToken);
 
         Domain.Entities.Tenant tenant = await CreateTenant(command, cToken);
-        User user = await CreateUser(command, tenant);
+        UserEntity user = await CreateUser(command, tenant);
 
         await EnsureRoleAsync(UserRole.User, tenant.Id,[
             "users.read-self"

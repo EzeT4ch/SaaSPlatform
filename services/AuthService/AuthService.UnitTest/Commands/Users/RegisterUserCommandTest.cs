@@ -24,6 +24,8 @@ public sealed class RegisterUserCommandTest
     private readonly Mock<RoleManager<Role>> _roleManager;
     private readonly Mock<IUnitOfWork> _unitOfWork;
     private readonly Mock<ILogger> _logger;
+    private readonly Mock<IMapper> _mapper;
+    private readonly Mock<IPasswordHasher<UserModel>> _passwordHasher;
     private readonly RegisterUserCommandHandler _handler;
 
 
@@ -37,6 +39,8 @@ public sealed class RegisterUserCommandTest
 
         _handler = new RegisterUserCommandHandler(
             _repository.Object,
+            _mapper.Object,
+            _passwordHasher.Object,
             _unitOfWork.Object);
     }
     
