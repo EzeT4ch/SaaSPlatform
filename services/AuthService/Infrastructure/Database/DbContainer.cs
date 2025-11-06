@@ -10,6 +10,7 @@ public sealed class DbContainer(
 {
     public DbSet<Tenant> Tenants => Set<Tenant>();
     public DbSet<RefreshToken> RefreshTokens => Set<RefreshToken>();
+    public DbSet<RolePermission> RolePermissions => Set<RolePermission>();
     // TODO: Implement feature flags
     //public DbSet<FeatureFlagOverride> FeatureFlags => Set<FeatureFlagOverride>();
 

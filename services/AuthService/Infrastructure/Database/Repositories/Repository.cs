@@ -19,10 +19,10 @@ public class Repository<TModel, TDomain> : IRepository<TModel, TDomain> where TM
         _toModel = toModel;
     }
 
-    public Task<TDomain?> GetByIdAsync(int id, Func<IQueryable<TModel>, IQueryable<TModel>>? include = null,
+    public Task<TDomain?> GetByIdAsync(Guid id, Func<IQueryable<TModel>, IQueryable<TModel>>? include = null,
         bool isTracking = false, CancellationToken cancellationToken = default)
         => _dbSet.WithTracking(isTracking)
-            .Where(x => EF.Property<int>(x, "Id") == id)
+            .Where(x => EF.Property<Guid>(x, "Id") == id)
             .ApplyIncludes(include)
             .Select(x => _toDomain(x))
             .FirstOrDefaultAsync(cancellationToken);

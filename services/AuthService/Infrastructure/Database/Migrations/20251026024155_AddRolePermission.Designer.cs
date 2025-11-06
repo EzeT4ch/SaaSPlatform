@@ -4,6 +4,7 @@ using AuthService.Infrastructure.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AuthService.Infrastructure.Database.Migrations
 {
     [DbContext(typeof(DbContainer))]
-    partial class DbContainerModelSnapshot : ModelSnapshot
+    [Migration("20251026024155_AddRolePermission")]
+    partial class AddRolePermission
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -65,19 +68,12 @@ namespace AuthService.Infrastructure.Database.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("NormalizedName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid>("TenantId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("Name", "TenantId")
-                        .IsUnique()
-                        .HasFilter("[Name] IS NOT NULL");
 
                     b.ToTable("Roles", "dbo");
                 });

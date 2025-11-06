@@ -1,3 +1,4 @@
+using AuthService.Application.Commands.Users.CreateUserCommands;
 using AuthService.Domain.Entities;
 using AutoMapper;
 
