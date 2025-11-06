@@ -4,13 +4,11 @@ using AuthService.Domain.Events.Tenants;
 using AuthService.Infrastructure.Database.Entities;
 using AuthService.Infrastructure.Database.Repositories;
 using AuthService.Infrastructure.Database.Transactions;
-using AutoMapper;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Shared;
 using TenantEntity = AuthService.Infrastructure.Database.Entities.Tenant;
-using User = AuthService.Domain.Entities.User;
 using UserEntity = AuthService.Infrastructure.Database.Entities.User;
 
 namespace AuthService.Application.Commands.Tenants.CreateUserTenantCommands;
@@ -20,7 +18,7 @@ internal sealed class RegisterTenantAdminCommandHandler(
     UserManager<UserEntity> userRepository,
     RoleManager<Role> roleManager,
     IUnitOfWork unitOfWork,
-    ILogger logger
+    ILogger<RegisterTenantAdminCommandHandler> logger
 ) : ICommandHandler<RegisterTenantAdminCommand, Guid>
 {
     public async Task<Result<Guid>> Handle(RegisterTenantAdminCommand command, CancellationToken cToken)
@@ -30,7 +28,7 @@ internal sealed class RegisterTenantAdminCommandHandler(
         Domain.Entities.Tenant tenant = await CreateTenant(command, cToken);
         UserEntity user = await CreateUser(command, tenant);
 
-        await EnsureRoleAsync(UserRole.User, tenant.Id,[
+        await EnsureRoleAsync(UserRole.User, tenant.Id, [
             "users.read-self"
         ]);
         await EnsureRoleAsync(UserRole.Admin, tenant.Id, [
@@ -40,7 +38,7 @@ internal sealed class RegisterTenantAdminCommandHandler(
             "tenants.manage",
             "*"
         ]);
-        
+
         await userRepository.AddToRoleAsync(user, UserRole.Admin);
 
         await unitOfWork.SaveChangesAsync(cToken);
@@ -61,9 +59,9 @@ internal sealed class RegisterTenantAdminCommandHandler(
             UserName = command.Username,
             NormalizedUserName = command.FullName
         };
-        
+
         await userRepository.CreateAsync(user, command.Password);
-        
+
         return user;
     }
 
