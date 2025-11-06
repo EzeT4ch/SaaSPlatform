@@ -1,59 +1,45 @@
 ﻿using AuthService.Application.Commands.Tenant.CreateUserCommands;
 using AuthService.Application.Commands.Users.CreateUserCommands;
 using AuthService.Domain.Enums;
+using AuthService.Infrastructure.Database.Entities;
 using AuthService.Infrastructure.Database.Repositories;
 using AuthService.Infrastructure.Database.Transactions;
 using AutoMapper;
 using FluentAssertions;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Logging;
 using Moq;
 using Shared;
 using User = AuthService.Domain.Entities.User;
 using UserModel = AuthService.Infrastructure.Database.Entities.User;
+using TenantEntity = AuthService.Infrastructure.Database.Entities.Tenant;
+using Tenant = AuthService.Domain.Entities.Tenant;
 
 namespace AuthService.UnitTest.Commands.Users;
 
 public sealed class RegisterUserCommandTest
 {
-    private readonly Mock<IRepository<UserModel, User>> _repository;
-    private readonly Mock<IMapper> _mapper;
-    private readonly Mock<IPasswordHasher<UserModel>> _passwordHasher;
+    private readonly Mock<UserManager<UserModel>> _repository;
+    private readonly Mock<IRepository<TenantEntity, Tenant>> _tenantRepository;
+    private readonly Mock<RoleManager<Role>> _roleManager;
     private readonly Mock<IUnitOfWork> _unitOfWork;
+    private readonly Mock<ILogger> _logger;
     private readonly RegisterUserCommandHandler _handler;
 
 
     public RegisterUserCommandTest()
     {
-        _repository = new Mock<IRepository<UserModel, User>>();
-        _mapper = new Mock<IMapper>();
-        _passwordHasher = new Mock<IPasswordHasher<UserModel>>();
+        _repository = new Mock<UserManager<UserModel>>();
+        _tenantRepository = new Mock<IRepository<TenantEntity, Tenant>>();
+        _roleManager = new Mock<RoleManager<Role>>();
+        _logger = new Mock<ILogger>();
         _unitOfWork = new Mock<IUnitOfWork>();
 
         _handler = new RegisterUserCommandHandler(
             _repository.Object,
-            _mapper.Object,
-            _passwordHasher.Object,
             _unitOfWork.Object);
     }
-
-    private void SetupMapperAndPasswordHasher(RegisterUserCommand command, User domainUser, UserModel userModel, string hashedPassword = "HashedPassword123!")
-    {
-        // Setup mapper: RegisterUserCommand -> User (Domain)
-        _mapper
-            .Setup(x => x.Map<User>(command))
-            .Returns(domainUser);
-
-        // Setup mapper: User (Domain) -> UserModel (Infrastructure)
-        _mapper
-            .Setup(x => x.Map<UserModel>(It.Is<User>(u => u.Id == domainUser.Id)))
-            .Returns(userModel);
-
-        // Setup password hasher
-        _passwordHasher
-            .Setup(x => x.HashPassword(It.IsAny<UserModel>(), command.password))
-            .Returns(hashedPassword);
-    }
-
+    
     [Fact]
     public async Task HandleShouldReturnSuccessWhenUserIsCreatedSuccessfully()
     {
@@ -64,7 +50,7 @@ public sealed class RegisterUserCommandTest
             "SecurePassword123!",
             "testuser",
             Guid.NewGuid(),
-            UserRole.Client);
+            UserRole.User);
 
         var tenantId = command.tenantId;
         var userId = Guid.NewGuid();
@@ -90,11 +76,9 @@ public sealed class RegisterUserCommandTest
             IsActive = true
         };
 
-        SetupMapperAndPasswordHasher(command, domainUser, userModel);
-
         _repository
-            .Setup(x => x.AddAsync(It.IsAny<User>(), default))
-            .Returns(Task.CompletedTask);
+            .Setup(x => x.CreateAsync(It.IsAny<UserModel>(), default))
+            .Returns(new Task<IdentityResult>(() => IdentityResult.Success));
 
         _unitOfWork
             .Setup(x => x.SaveChangesAsync(default))
@@ -108,8 +92,8 @@ public sealed class RegisterUserCommandTest
         result.Value.Should().NotBeEmpty();
 
         _repository.Verify(
-            x => x.AddAsync(
-                It.Is<User>(u =>
+            x => x.CreateAsync(
+                It.Is<UserModel>(u =>
                     u.Email == command.email &&
                     u.UserName == command.username &&
                     u.TenantId == tenantId),
@@ -129,7 +113,7 @@ public sealed class RegisterUserCommandTest
             "SecurePassword123!",
             "testuser",
             tenantId,
-            UserRole.Client);
+            UserRole.User);
 
         var domainUser = new User
         {
@@ -151,13 +135,11 @@ public sealed class RegisterUserCommandTest
             IsActive = true
         };
 
-        SetupMapperAndPasswordHasher(command, domainUser, userModel);
-
         Domain.Entities.User? capturedUser = null;
         _repository
-            .Setup(x => x.AddAsync(It.IsAny<User>(), default))
+            .Setup(x => x.CreateAsync(It.IsAny<UserModel>(), default))
             .Callback<User, CancellationToken>((user, _) => capturedUser = user)
-            .Returns(Task.CompletedTask);
+            .Returns(new Task<IdentityResult>(() => IdentityResult.Success));
 
         _unitOfWork
             .Setup(x => x.SaveChangesAsync(default))
@@ -205,13 +187,11 @@ public sealed class RegisterUserCommandTest
             IsActive = true
         };
 
-        SetupMapperAndPasswordHasher(command, domainUser, userModel);
-
         User? capturedUser = null;
         _repository
-            .Setup(x => x.AddAsync(It.IsAny<User>(), default))
+            .Setup(x => x.CreateAsync(It.IsAny<UserModel>(), default))
             .Callback<User, CancellationToken>((user, _) => capturedUser = user)
-            .Returns(Task.CompletedTask);
+            .Returns(new Task<IdentityResult>(() => IdentityResult.Success));
 
         _unitOfWork
             .Setup(x => x.SaveChangesAsync(default))
@@ -247,13 +227,9 @@ public sealed class RegisterUserCommandTest
             TenantId = tenantId,
             Role = command.role
         };
-
-        _mapper
-            .Setup(x => x.Map<User>(command))
-            .Returns(domainUser);
-
+        
         _repository
-            .Setup(x => x.AddAsync(It.IsAny<User>(), default))
+            .Setup(x => x.CreateAsync(It.IsAny<UserModel>(), default))
             .ThrowsAsync(new InvalidOperationException("Database connection failed"));
 
         // Act

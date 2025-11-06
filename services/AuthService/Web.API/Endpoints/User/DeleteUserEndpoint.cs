@@ -10,7 +10,6 @@ public class DeleteUserEndpoint : IEndpoint
 {
     public void MapEndpoint(IEndpointRouteBuilder app)
     {
-        
         app.MapDelete("users/delete/{email}/tenant/{tenantId:guid}", async Task<IResult> (
             string email,
             Guid tenantId,

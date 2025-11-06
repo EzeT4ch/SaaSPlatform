@@ -1,7 +1,7 @@
 namespace AuthService.Domain.Enums;
 
-public enum UserRole
+public static class UserRole
 {
- Admin = 0,
- Client = 1
+    public const string Admin = "Admin";
+    public const string User = "User";
 }

@@ -17,7 +17,7 @@ public class User : Entity
 
     public string PasswordHash { get; set; } = null!;
     public string FullName { get; set; } = null!;
-    public UserRole Role { get; set; } = UserRole.Client;
+    public string Role { get; set; } = UserRole.User;
     public bool IsActive { get; set; } = true;
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
   
@@ -28,7 +28,7 @@ public class User : Entity
         Role = role.ToLower() switch
         {
             "admin" => UserRole.Admin,
-            "client" => UserRole.Client,
+            "client" => UserRole.User,
             _ => throw new ArgumentException("Invalid role", nameof(role))
         };
     }

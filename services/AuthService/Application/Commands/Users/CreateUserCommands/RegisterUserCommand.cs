@@ -9,7 +9,7 @@ public sealed record RegisterUserCommand(
     string password,
     string fullName,
     Guid tenantId,
-    UserRole role,
+    string role,
     string? tenantName = null
 ) : ICommand<Guid>;
 

@@ -17,11 +17,9 @@ namespace AuthService.Application.Commands.Tenants.CreateUserTenantCommands;
 
 internal sealed class RegisterTenantAdminCommandHandler(
     IRepository<TenantEntity, Domain.Entities.Tenant> tenantRepository,
-    UserManager<User> userRepository,
+    UserManager<UserEntity> userRepository,
     RoleManager<Role> roleManager,
-    IPasswordHasher<UserEntity> passwordHasher,
     IUnitOfWork unitOfWork,
-    IMapper mapper,
     ILogger logger
 ) : ICommandHandler<RegisterTenantAdminCommand, Guid>
 {
@@ -32,10 +30,10 @@ internal sealed class RegisterTenantAdminCommandHandler(
         Domain.Entities.Tenant tenant = await CreateTenant(command, cToken);
         User user = await CreateUser(command, tenant);
 
-        await EnsureRoleAsync("User", tenant.Id,[
+        await EnsureRoleAsync(UserRole.User, tenant.Id,[
             "users.read-self"
         ]);
-        await EnsureRoleAsync("Admin", tenant.Id, [
+        await EnsureRoleAsync(UserRole.Admin, tenant.Id, [
             "users.create",
             "users.delete",
             "users.update",
@@ -43,6 +41,8 @@ internal sealed class RegisterTenantAdminCommandHandler(
             "*"
         ]);
         
+        await userRepository.AddToRoleAsync(user, UserRole.Admin);
+
         await unitOfWork.SaveChangesAsync(cToken);
 
         tenant.Raise(new TenantCreatedEvent(tenant.Id, user.Id));
@@ -52,23 +52,17 @@ internal sealed class RegisterTenantAdminCommandHandler(
         return Result.Success(user.Id);
     }
 
-    private async Task<User> CreateUser(RegisterTenantAdminCommand command, Domain.Entities.Tenant tenant)
+    private async Task<UserEntity> CreateUser(RegisterTenantAdminCommand command, Domain.Entities.Tenant tenant)
     {
-        User user = new()
+        UserEntity user = new()
         {
             Email = command.Email,
             TenantId = tenant.Id,
             UserName = command.Username,
-            FullName = command.FullName,
-            CreatedAt = DateTime.UtcNow
+            NormalizedUserName = command.FullName
         };
-
-        UserEntity userEntity = mapper.Map<UserEntity>(user);
-        userEntity.PasswordHash = passwordHasher.HashPassword(userEntity, command.Password);
-
-        await userRepository.CreateAsync(user);
-        await userRepository.AddToRoleAsync(user, "Admin");
         
+        await userRepository.CreateAsync(user, command.Password);
         
         return user;
     }
@@ -108,7 +102,8 @@ internal sealed class RegisterTenantAdminCommandHandler(
                 return;
             }
 
-            logger.LogInformation("Created role: {Role}", roleName);
+            logger.LogInformation("Created role {Role} for tenant {TenantId}", roleName, tenantId);
+
         }
 
 
@@ -119,6 +114,6 @@ internal sealed class RegisterTenantAdminCommandHandler(
         }
 
         await roleManager.UpdateAsync(role);
-        logger.LogInformation("Updated role {Role} with {Count} permissions", roleName, role.RolePermissions.Count);
+        logger.LogInformation("Updated role {Role} with {Count} permissions for tenant {TenantId}", roleName, role.RolePermissions.Count, tenantId);
     }
 }
