@@ -1,6 +1,5 @@
 ﻿using AuthService.Application.Abstractions.Messaging;
-using AuthService.Application.Commands.Tenant.CreateUserCommands;
-using AuthService.Domain.Enums;
+using AuthService.Application.Commands.Users.CreateUserCommands;
 using AuthService.Web.API.Extensions;
 using AuthService.Web.API.Infrastructure;
 using Shared;
@@ -15,7 +14,7 @@ public class CreatedUserEndpoint : IEndpoint
         Guid tenantId,
         string email,
         string fullName,
-        UserRole role);
+        string role);
 
     public void MapEndpoint(IEndpointRouteBuilder app)
     {

@@ -4,7 +4,7 @@ namespace AuthService.Infrastructure.Database.Repositories;
 
 public interface IRepository<TModel, TDomain> where TDomain : class where TModel : class
 {
-    Task<TDomain?> GetByIdAsync(int id, Func<IQueryable<TModel>, IQueryable<TModel>>? include = null,
+    Task<TDomain?> GetByIdAsync(Guid id, Func<IQueryable<TModel>, IQueryable<TModel>>? include = null,
         bool isTracking = false, CancellationToken cancellationToken = default);
 
     Task<IEnumerable<TDomain>> GetAllAsync(CancellationToken cancellationToken = default,
